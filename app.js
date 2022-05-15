@@ -71,7 +71,7 @@ function displayTimer(){
         if(seconds == 60){
             seconds = 0;
             minutes++;
-			var audio = new Audio('beep-01a.mp3');
+			var audio = new Audio('https://raw.githubusercontent.com/Akshat-gup/study/main/beep-01a.mp3');
 			audio.play();
             if(minutes == 60){
                 minutes = 0;
@@ -130,9 +130,3 @@ svg
   .attr("stroke", "black")
   .style("stroke-width", "2px")
   .style("opacity", 0.7)
-
-
-
-
-
-console.log("");
