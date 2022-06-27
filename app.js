@@ -1,28 +1,71 @@
 let [milliseconds,seconds,minutes,hours] = [0,0,0,0];
-totalms = 0;
+let totalms = 0;
+
+//Subjects
 let [maths,english,individuals,second,science] = [false,false,false,false,false];
-let math_elem = document.querySelector("body > div.subjects > div:nth-child(1)");
-let english_elem = document.querySelector("body > div.subjects > div:nth-child(2)");
-let individuals_elem = document.querySelector("body > div.subjects > div:nth-child(3)");
-let second_elem = document.querySelector("body > div.subjects > div:nth-child(4)");
-let science_elem = document.querySelector("body > div.subjects > div:nth-child(5)");
+let math_elem = document.querySelector("body > div.main-section > div.main-page > div > div > div.subjects > div:nth-child(1)");
+let english_elem = document.querySelector("body > div.main-section > div.main-page > div > div > div.subjects > div:nth-child(2)");
+let individuals_elem = document.querySelector("body > div.main-section > div.main-page > div > div > div.subjects > div:nth-child(3)");
+let second_elem = document.querySelector("body > div.main-section > div.main-page > div > div > div.subjects > div:nth-child(4)");
+let science_elem = document.querySelector("body > div.main-section > div.main-page > div > div > div.subjects > div:nth-child(5)");
+
+
+let alarm_minutes = 1;
+
 math_elem.addEventListener("click", ()=> {
-	maths=true;
+	maths= (!maths);
+	if (math_elem.style.backgroundColor == "rgb(79, 106, 170)") {
+		math_elem.style.backgroundColor = "#1f1f1f";
+	} else {
+		math_elem.style.backgroundColor = "rgb(79, 106, 170)";
+	}
 })
 english_elem.addEventListener("click", ()=> {
-	english=true;
+	english=(!english);
+	if (english_elem.style.backgroundColor == "rgb(174, 102, 102)") {
+		english_elem.style.backgroundColor = "#1f1f1f";
+	} else {
+		english_elem.style.backgroundColor = "rgb(174, 102, 102)";
+	}
 })
 individuals_elem.addEventListener("click", ()=> {
-	individuals=true;
+	individuals=(!individuals);
+	if (individuals_elem.style.backgroundColor == "rgb(215, 199, 117)") {
+		individuals_elem.style.backgroundColor = "#1f1f1f";
+	} else {
+		individuals_elem.style.backgroundColor = "rgb(215, 199, 117)";
+	}
 })
 second_elem.addEventListener("click", ()=> {
-	second=true;
+	second=(!second);
+	if (second_elem.style.backgroundColor == "rgb(117, 215, 122)") {
+		second_elem.style.backgroundColor = "#1f1f1f";
+	} else {
+		second_elem.style.backgroundColor = "rgb(117, 215, 122)";
+	}
 })
 science_elem.addEventListener("click", ()=> {
-	science=true;
+	science=(!science);
+	if (science_elem.style.backgroundColor == "rgb(191, 122, 173)") {
+		science_elem.style.backgroundColor = "#1f1f1f";
+	} else {
+		science_elem.style.backgroundColor = "#bf7aad";
+	}
 })
 
-let timerRef = document.querySelector('.timerDisplay');
+//Switching screens
+let mainSection = document.querySelector("body > div.main-section");
+let linkToTimer = document.querySelector("body > div.main-section > div.main-page > div > div > a");
+let pageTitle = document.querySelector("body > h2")
+let timerContainer = document.querySelector("body > div.container");
+linkToTimer.addEventListener("click", ()=> {
+	mainSection.style.display = "none";
+	timerContainer.style.display = "block"
+	pageTitle.style.display = "none";
+})
+
+//Timer
+let timerRef = document.querySelector('body > div.container > div.timerDisplay');
 let int = null;
 
 document.getElementById('startTimer').addEventListener('click', ()=>{
@@ -40,18 +83,24 @@ document.getElementById('pauseTimer').addEventListener('click', ()=>{
 document.getElementById('resetTimer').addEventListener('click', ()=>{
     clearInterval(int);
     
-    
+    console.log(totalms);
+	console.log(parseInt((localStorage.getItem('maths') || 0)));
+	console.log(parseInt(totalms/1000));
+	console.log((parseInt((localStorage.getItem('maths') || 0)) + parseInt(totalms/1000)).toString());
 	if (maths) {
-		localStorage.setItem("maths", parseInt((localStorage.getItem('maths') || 0) + totalms));
-	} else if (english) {
-		console.log(milliseconds)
-		localStorage.setItem("english", parseInt((localStorage.getItem('english') || 0) + totalms));
-	} else if (individuals) {
-		localStorage.setItem("individuals", parseInt((localStorage.getItem('individuals') || 0) + totalms));
-	} else if (second) {
-		localStorage.setItem("second", parseInt((localStorage.getItem('second') || 0) + totalms));
-	} else if (science) {
-		localStorage.setItem("science", parseInt((localStorage.getItem('science') || 0) + totalms));
+		localStorage.setItem("maths", (parseInt((localStorage.getItem('maths') || 0)) + parseInt(totalms/1000)).toString());
+	}
+	if (english) {
+		localStorage.setItem("english", (parseInt((localStorage.getItem('english') || 0)) + parseInt(totalms/1000)).toString());
+	}
+	if (individuals) {
+		localStorage.setItem("individuals", (parseInt((localStorage.getItem('individuals') || 0)) + parseInt(totalms/1000)).toString());
+	}
+	if (second) {
+		localStorage.setItem("second", (parseInt((localStorage.getItem('second') || 0)) + parseInt(totalms/1000).toString()));
+	}
+	if (science) {
+		localStorage.setItem("science", (parseInt((localStorage.getItem('science') || 0)) + parseInt(totalms/1000)).toString());
 	}
 	maths=false;
 	english=false;
@@ -60,6 +109,9 @@ document.getElementById('resetTimer').addEventListener('click', ()=>{
 	science=false;
 	[milliseconds,seconds,minutes,hours] = [0,0,0,0];
 	timerRef.innerHTML = '00 : 00 : 00';
+	mainSection.style.display = "block";
+	timerContainer.style.display = "none";
+	location.reload();
 });
 
 function displayTimer(){
@@ -71,8 +123,6 @@ function displayTimer(){
         if(seconds == 60){
             seconds = 0;
             minutes++;
-			var audio = new Audio('https://raw.githubusercontent.com/Akshat-gup/study/main/beep-01a.mp3');
-			audio.play();
             if(minutes == 60){
                 minutes = 0;
                 hours++;
@@ -82,14 +132,13 @@ function displayTimer(){
     let h = hours < 10 ? "0" + hours : hours;
     let m = minutes < 10 ? "0" + minutes : minutes;
     let s = seconds < 10 ? "0" + seconds : seconds;
-    let ms = milliseconds < 10 ? "00" + milliseconds : milliseconds < 100 ? "0" + milliseconds : milliseconds;
 
     timerRef.innerHTML = ` ${h} : ${m} : ${s}`;
 }
 
 // set the dimensions and margins of the graph
-var width = 450
-    height = 450
+var width = (window.innerWidth)/3
+    height = width
     margin = 10
 
 // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
@@ -130,3 +179,11 @@ svg
   .attr("stroke", "black")
   .style("stroke-width", "2px")
   .style("opacity", 0.7)
+
+let content = document.querySelector("body > div.main-section > div.right-half > div.content");
+content.innerHTML = `Time Spent per Subject:
+<br> Maths: ${Math.floor(localStorage.getItem('maths')/3600) || 0}h${Math.floor(localStorage.getItem('maths')/60) || 0}m
+<br> English:  ${Math.floor(localStorage.getItem('english')/3600 || 0)}h${Math.floor(localStorage.getItem('english')/60) || 0}m
+<br> Individuals & Societies:  ${Math.floor(localStorage.getItem('individuals')/3600) || 0}h${Math.floor(localStorage.getItem('individuals')/60) || 0}m
+<br> Second/Foreign Language:  ${Math.floor(localStorage.getItem('second')/3600) || 0}h${Math.floor(localStorage.getItem('second')/60 || 0)}m
+<br> Maths:  ${Math.floor(localStorage.getItem('science')/3600) || 0}h${Math.floor(localStorage.getItem('science')/60 || 0)}m`;
