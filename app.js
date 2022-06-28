@@ -97,7 +97,7 @@ document.getElementById('resetTimer').addEventListener('click', ()=>{
 		localStorage.setItem("individuals", (parseInt((localStorage.getItem('individuals') || 0)) + parseInt(totalms/1000)).toString());
 	}
 	if (second) {
-		localStorage.setItem("second", (parseInt((localStorage.getItem('second') || 0)) + parseInt(totalms/1000).toString()));
+		localStorage.setItem("second", (parseInt((localStorage.getItem('second') || 0)) + parseInt(totalms/1000)).toString());
 	}
 	if (science) {
 		localStorage.setItem("science", (parseInt((localStorage.getItem('science') || 0)) + parseInt(totalms/1000)).toString());
