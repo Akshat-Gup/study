@@ -175,3 +175,7 @@ body > div.main-section > div > div.left-half > div > div > div:nth-child(5) {
   color: white;
   margin-bottom: 5vh;
 }
+
+.clear-session-button {
+  margin-bottom: 50px;
+}

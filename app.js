@@ -137,7 +137,7 @@ function displayTimer(){
 }
 
 // set the dimensions and margins of the graph
-var width = (window.innerWidth)/3
+var width = (window.innerWidth)/3.5
     height = width
     margin = 10
 
